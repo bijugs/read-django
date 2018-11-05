@@ -18,7 +18,7 @@ from django.contrib import admin
 from django.urls import path,re_path
 
 from books.views import (AuthorDetail, AuthorList, BookDetail, list_books, 
-                        review_book, review_books)
+                        ReviewList, review_book)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -26,6 +26,6 @@ urlpatterns = [
     path('authors/', AuthorList.as_view(), name='authors'),
     re_path(r'^books/(?P<pk>[-\w]+)/$', BookDetail.as_view(), name='book-detail'),
     re_path(r'^authors/(?P<pk>[-\w]+)/$', AuthorDetail.as_view(), name='author-detail'),
-    re_path(r'^review/$', review_books, name='review-books'),
+    re_path(r'^review/$', ReviewList.as_view(), name='review-books'),
     re_path(r'^review/(?P<pk>[-\w]+)/$', review_book, name='review-book'),
 ]
