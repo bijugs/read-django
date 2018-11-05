@@ -12,12 +12,17 @@ Class-based views
 Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
+    re_path(r'^authors/(?P<pk>[-\w]+)/$', AuthorDetail.as_view(), name='author-detail')
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import path,re_path
 
-from books.views import list_books
+from books.views import AuthorDetail, AuthorList, BookDetail, list_books
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', list_books, name='books'),
+    path('authors/', AuthorList.as_view(), name='authors'),
+    re_path(r'^books/(?P<pk>[-\w]+)/$', BookDetail.as_view(), name='book-detail'),
+    re_path(r'^authors/(?P<pk>[-\w]+)/$', AuthorDetail.as_view(), name='author-detail'),
 ]
