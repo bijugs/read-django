@@ -1,7 +1,9 @@
 #from django.http import HttpResponse
+from django.urls import reverse
 from django.db.models import Count
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.generic import DetailView, View #Required for class based views
+from django.views.generic.edit import CreateView
 from .forms import BookForm, ReviewForm
 from .models import Author,Book
 
@@ -108,3 +110,23 @@ def review_book(request, pk):
     }
 	
     return render(request, "review-book.html", context)
+
+class CreateAuthor(CreateView):
+    model = Author
+    fields = ['name',]
+    template_name = "create-author.html"
+
+    def get_success_url(self):
+        return reverse('review-books')
+
+class CreateBook(CreateView):
+    model = Book
+    fields = ['title','authors',]
+    template_name = "create-book.html"
+
+    def form_valid(self, form):
+        form.save()
+        return redirect('books')
+
+    def get_success_url(self):
+        return reverse('books')
